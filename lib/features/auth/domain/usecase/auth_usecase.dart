@@ -30,3 +30,13 @@ class LogOutUsecase {
     return await repository.logout();
   }
 }
+
+class ResetPasswordUsecase {
+  final AuthRepository repository;
+
+  ResetPasswordUsecase(this.repository);
+
+  Future<void> call(String email) async {
+    return await repository.resetPassword(email);
+  }
+}

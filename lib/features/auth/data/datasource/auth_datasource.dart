@@ -23,6 +23,10 @@ class AuthDatasource {
     return _firebaseAuth.currentUser?.emailVerified ?? false;
   }
 
+  Future<void> resetPassword(String email) async {
+    return _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
+
   Future<void> logout() async {
     await _firebaseAuth.signOut();
   }

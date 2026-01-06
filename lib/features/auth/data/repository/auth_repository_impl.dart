@@ -29,4 +29,9 @@ class AuthRepositoryImpl implements AuthRepository {
     final result = await datasource.signup(email, password);
     return UserModel.fromFirebase(result);
   }
+  
+  @override
+  Future<void> resetPassword(String email) async{
+    await datasource.resetPassword(email);
+  }
 }

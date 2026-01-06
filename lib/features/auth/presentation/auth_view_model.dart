@@ -8,18 +8,22 @@ class AuthViewModel extends ChangeNotifier {
   final SignupUsecase signupUsecase;
   final LogOutUsecase logOutUsecase;
   final CreateUserUsecase createUserUsecase;
+  final ResetPasswordUsecase resetPasswordUsecase;
 
   AuthViewModel(
       {required this.loginUsecase,
       required this.signupUsecase,
       required this.logOutUsecase,
-      required this.createUserUsecase});
+      required this.createUserUsecase,
+      required this.resetPasswordUsecase});
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   UserEntity? _user;
   UserEntity? get user => _user;
 
+  String? successMessage;
+  String? errorMessage;
   String? error;
 
   Future<void> login(String email, String pass, String? displayName) async {
@@ -29,7 +33,8 @@ class AuthViewModel extends ChangeNotifier {
       _user = _user!.copyWith(displayName: displayName ?? email);
       createUserUsecase(_user!);
     } catch (e) {
-      error = e.toString();
+      errorMessage = 'Something went wrong, please try again.';
+      successMessage = null;
     }
     _setLoading(false);
   }
@@ -38,10 +43,28 @@ class AuthViewModel extends ChangeNotifier {
     _setLoading(true);
     try {
       _user = await signupUsecase(email.toUpperCase().trim(), pass);
+      successMessage = 'Registration successful, check your email inbox';
+      errorMessage = null;
+      notifyListeners();
     } catch (e) {
-      error = e.toString();
+      errorMessage = 'Something went wrong, please try again.';
+      successMessage = null;
     }
     _setLoading(false);
+  }
+
+  Future<void> resetPassword(String email) async {
+    _setLoading(true);
+    try {
+      await resetPasswordUsecase(email);
+      successMessage = 'Check your email to reset your password.';
+      successMessage = null;
+    } catch (e) {
+      errorMessage = 'Something went wrong, please try again.';
+      successMessage = null;
+    }
+    _setLoading(false);
+    notifyListeners();
   }
 
   Future<void> logout() async {
@@ -50,7 +73,8 @@ class AuthViewModel extends ChangeNotifier {
       await logOutUsecase();
       _user = null;
     } catch (e) {
-      error = e.toString();
+      errorMessage = 'Something went wrong, please try again.';
+      successMessage = null;
     }
     _setLoading(false);
   }
