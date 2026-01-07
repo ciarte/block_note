@@ -11,14 +11,12 @@ Block Note allows users to create, edit, and delete notes with custom icons. Not
 ## Project Setup
 
 1. **Clone the repository**
-bash
+
 git clone <repository-url>
 
 cd block_note
 Install dependencies
 
-bash
-Copy code
 flutter pub get
 Configure Firebase
 
