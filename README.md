@@ -8,40 +8,58 @@ Block Note allows users to create, edit, and delete notes with custom icons. Not
 
 ---
 
-## Project Setup
+1.1. ## Project Setup
 
-1. **Clone the repository**
+Clone the repository
 
 git clone <repository-url>
+cd_note block
 
-cd block_note
-Install dependencies
+installed dependencies
 
-flutter pub get
+pub flutter get
+
 Configure Firebase
 
-Create a Firebase project.
+Create a project in Firebase.
 
 Add Firebase for Android and iOS following the official documentation.
 
 Download the google-services.json (Android) and GoogleService-Info.plist (iOS) files and place them in the corresponding directories.
 
 Enable Authentication > Email/Password.
+
 Create the notes collection in Firestore.
-Configure Hive (local storage)
-Initialize Hive in main.dart:
-dart
-Copy code
-await Hive.initFlutter();
+
+Initialize Hive
+
+In main.dart:
+
+wait Hive.initFlutter();
+
 Hive.registerAdapter(BlockEntityAdapter());
+
 await Hive.openBox<BlockEntity>('blocks');
+
 How to run the app locally
-bash
-Copy code
-flutter run
+Run Flutter
+
 Select the emulator or physical device.
 
-Notes created offline are saved locally and automatically synced when the device detects an internet connection.
+Generate APK (Android)
+`flutter build apk --release`
+
+The generated APK will be located in: `build/app/outputs/flutter-apk/app-release.apk`
+
+For quick testing:
+
+Install Flutter
+
+Generate app bundle (for the Play Store)
+`flutter build app bundle --release`
+
+This generates an .aab file ready to upload to Google Play:
+`build/app/outputs/bundle/release/app-release.aab`
 
 2. **Database Schema**
 Collection: notes (Firestore)
