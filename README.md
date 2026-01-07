@@ -45,7 +45,7 @@ Select the emulator or physical device.
 
 Notes created offline are saved locally and automatically synced when the device detects an internet connection.
 
-Database Schema
+2. **Database Schema**
 Collection: notes (Firestore)
 Field Type Description
 id String Unique note ID
@@ -56,19 +56,19 @@ userId String Owner user ID
 createdAt Timestamp Creation date
 updatedAt Timestamp Last modified date (optional)
 
-Local Storage (Hive)
+3. *Local Storage (Hive)**
 Box: blocks
 
 The same information as Firestore is stored, plus a pending synchronization status handled in memory (pendingSyncIds).
 
-Authentication
+4. **Authentication**
 Firebase Authentication with email and password is used.
 
 Login, registration, and logout are managed from the AuthViewModel.
 
 Navigation depends on the user's authentication status: it automatically redirects to the login page or the notes list.
 
-Assumptions and trade-offs
+5. **Assumptions and trade-offs**
 Offline notes are marked as pending synchronization and are automatically uploaded when a connection is available.
 
 The synchronization status is not stored in Firestore, only in memory (pendingSyncIds).
@@ -79,11 +79,13 @@ Hive is used for simplicity and performance for local storage.
 
 The iconData of the blocks corresponds to the Material Icons.
 
-Next steps/improvements
+6. **Next steps/improvements**
 Display a clearer visual indicator for notes pending synchronization.
 
 Handle conflicts if the same note is edited offline and online before syncing.
 
-Support for multiple users on the same app.
+Support for multiple users within the same application, allowing for the creation of notes by a single group of users.
 
 Add unit and integration tests to ensure proper offline/online synchronization.
+
+7. **link to appstore**
