@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 TextFormField textInput(
-    String title, String errorMessage, TextEditingController controller) {
+    String title, String errorMessage, TextEditingController controller, {int? maxLength}) {
   return TextFormField(
+    maxLength: maxLength,
       obscureText: false,
       keyboardType: TextInputType.text,
       enableSuggestions: false,

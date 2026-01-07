@@ -5,14 +5,12 @@ class UserModel extends UserEntity {
   UserModel({
     required super.id,
     required super.email,
-    super.displayName,
   });
 
   factory UserModel.fromFirebase(UserCredential userCredential) {
     return UserModel(
       id: userCredential.user?.uid ?? '',
       email: userCredential.user?.email ?? '',
-      displayName: userCredential.user?.displayName,
     );
   }
 
@@ -20,7 +18,6 @@ class UserModel extends UserEntity {
     return UserModel(
       id: userCredential.id,
       email: userCredential.email,
-      displayName: userCredential.displayName,
     );
   }
 
@@ -28,7 +25,6 @@ class UserModel extends UserEntity {
     return {
       'id': id,
       'email': email,
-      'displayName': displayName,
     };
   }
 }

@@ -26,12 +26,14 @@ class AuthViewModel extends ChangeNotifier {
   String? errorMessage;
   String? error;
 
-  Future<void> login(String email, String pass, String? displayName) async {
+  Future<void> login(String email, String pass) async {
     _setLoading(true);
     try {
-      _user = await loginUsecase(email.toUpperCase().trim(), pass);
-      _user = _user!.copyWith(displayName: displayName ?? email);
-      createUserUsecase(_user!);
+      _user = await loginUsecase(email.trim(), pass);
+      await createUserUsecase(_user!);
+      successMessage = 'Wellcome back !';
+      errorMessage = null;
+      notifyListeners();
     } catch (e) {
       errorMessage = 'Something went wrong, please try again.';
       successMessage = null;

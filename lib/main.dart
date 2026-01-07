@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,12 +8,14 @@ import 'package:block_note/features/auth/presentation/auth_view_model.dart';
 import 'package:block_note/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:block_note/features/auth/data/repository/user_repository_impl.dart';
 import 'package:block_note/features/auth/domain/usecase/user_usecase.dart';
-import 'package:block_note/router/routes.dart';
-
+import 'package:block_note/core/router/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+  );
   runApp(const MyApp());
 }
 

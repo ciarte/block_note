@@ -6,11 +6,11 @@ class UserDatasource {
 
   UserDatasource();
 
-  Future<void> createUserData(  UserModel user) async {
+  Future<void> createUserData(UserModel user) async {
+
     await firestore.collection('users').doc(user.id).set({
       'createdAt': FieldValue.serverTimestamp(),
       'email': user.email,
-      'displayName': user.displayName,
     });
   }
 }

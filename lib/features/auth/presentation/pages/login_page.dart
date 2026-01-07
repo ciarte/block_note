@@ -13,7 +13,6 @@ class LoginPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _userController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _userNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +36,6 @@ class LoginPage extends StatelessWidget {
                               image:
                                   AssetImage('assets/images/notes_logo.png')))),
                   textEmailInput('Email', _userController),
-                  textInput('Username', 'Please enter your username',
-                      _userNameController),
                   textPassInput('Password', 'Please enter your password',
                       _passwordController),
                   ElevatedButton(
@@ -48,22 +45,21 @@ class LoginPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async{
                         if (_formKey.currentState!.validate()) {
-                          vm.login(
+                          await vm.login(
                               _userController.text,
-                              _passwordController.text,
-                              _userNameController.text);
+                              _passwordController.text);
                         }
                         if (!context.mounted) return;
-                        if (vm.successMessage != null) {
+                          if (vm.successMessage != null && vm.user != null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(vm.successMessage!),
                               backgroundColor: Colors.green,
                             ),
                           );
-                          context.goNamed(BlockPage.name);
+                          context.goNamed(BlockPage.name, extra: vm.user );
                         }
 
                         if (vm.errorMessage != null) {
@@ -84,9 +80,12 @@ class LoginPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
-                          onPressed: () =>
-                              vm.resetPassword(_userController.text),
-                          child: Text('forgot your password?')),
+                        onPressed: () {
+                          final emailController = TextEditingController();
+                          _resetAlertDialog(context, emailController, vm);
+                        },
+                        child: const Text('forgot your password?'),
+                      ),
                       TextButton(
                           onPressed: () => context.goNamed(RegisterPage.name),
                           child: Text('create an account')),
@@ -97,6 +96,69 @@ class LoginPage extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Future<dynamic> _resetAlertDialog(BuildContext context,
+      TextEditingController emailController, AuthViewModel vm) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Reset Password'),
+        content: textEmailInput('Email', _userController),
+        actions: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 40),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 40),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            onPressed: () async {
+              final email = emailController.text.trim();
+              if (email.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Please enter an email'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+                return;
+              }
+
+              await vm.resetPassword(email);
+              if (!context.mounted) return;
+              if (vm.successMessage != null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(vm.successMessage!),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              } else if (vm.errorMessage != null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(vm.errorMessage!),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+              Navigator.of(context).pop();
+            },
+            child: const Text('Send'),
+          ),
+        ],
       ),
     );
   }
