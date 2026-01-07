@@ -47,7 +47,7 @@ Run Flutter
 Select the emulator or physical device.
 
 Generate APK (Android)
-`flutter build apk --release`
+`flutter build apk --release --no-tree-shake-icons`
 
 The generated APK will be located in: `build/app/outputs/flutter-apk/app-release.apk`
 
