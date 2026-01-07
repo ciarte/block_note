@@ -28,4 +28,21 @@ class BlockEntity {
       'iconData': iconData,
     };
   }
+
+  BlockEntity copyWith({
+    String? title,
+    String? content,
+    DateTime? updatedAt,
+    int? iconData,
+  }) {
+    return BlockEntity(
+      id: id,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      userId: userId,
+      createdAt: createdAt,
+      updatedAt: updatedAt ?? DateTime.now(),
+      iconData: iconData ?? this.iconData,
+    );
+  }
 }

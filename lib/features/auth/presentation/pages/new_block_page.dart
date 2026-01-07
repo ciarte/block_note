@@ -63,7 +63,7 @@ class NewBlockPage extends StatelessWidget {
                 ),
                 onPressed: () async {
                   await vm.createBlock(
-                      titleController.text, contentController.text);
+                      context, titleController.text, contentController.text);
                   if (!context.mounted) return;
                   Navigator.pop(context);
                 },

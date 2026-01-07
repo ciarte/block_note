@@ -47,6 +47,7 @@ class BlockModel extends BlockEntity {
     );
   }
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'title': title,

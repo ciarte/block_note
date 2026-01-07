@@ -7,7 +7,7 @@ class BlockUsecase {
 
   BlockUsecase(this.repository);
 
-  Stream<List<BlockEntity>> call(String userId) {
+  Stream<List<BlockEntity>> stream(String userId) {
     return repository.getBlocksByUser(userId);
   }
 
